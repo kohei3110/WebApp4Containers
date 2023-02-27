@@ -37,10 +37,10 @@ jobs:
         az acr login -n ${{ env.ACR_NAME }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
         mvn compile test com.google.cloud.tools:jib-maven-plugin:3.2.1:build \
           -Djib.from.image=eclipse-temurin:17.0.4_8-jre-alpine \
-          -Djib.to.image=${{ env.ACR_NAME }}.azurecr.io \
+          -Djib.to.image=${{ env.ACR_NAME }}.azurecr.io/todolist:${project.version} \
           -Djib.to.tags=v1.0.0-tem_17.04_8-jre-alpine_GITHUB_SHA,latest \
-          -Djib.to.auth.username=acrcontainerappopening \
-          -Djib.to.auth.password=MU2+vdGMq04Jc7obFSNA5drgPoofYMqgOA6q5Sem3Z+ACRCTwqZT \
+          -Djib.to.auth.username=${{ secrets.ACR_USERNAME }} \
+          -Djib.to.auth.password=${{ secrets.ACR_PASSWORD }} \
           -Djib.container.entrypoint=sh,webapp_startup.sh \
           -Djib.container.ports=8080,2222 \
           -Djib.container.environment=JDK_JAVA_OPTIONS="-Xmx512m -XX:StartFlightRecording"
