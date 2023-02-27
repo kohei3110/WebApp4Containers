@@ -34,7 +34,7 @@ jobs:
 
     - name: Build & Push Image
       run: |
-        az acr login -n ${{ env.ACR_NAME }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+        docker login ${{ env.ACR_NAME }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
         mvn compile test com.google.cloud.tools:jib-maven-plugin:3.2.1:build \
           -Djib.from-image=eclipse-temurin:17.0.4_8-jre-alpine \
           -Djib.to.image=${{ env.ACR_NAME }}.azurecr.io \
