@@ -10,6 +10,8 @@ on:
 
 env:
   ACR_NAME: acrcontainerappopening
+  RESOURCE_GROUP: rg-cloudworkshop-containerapp-opening
+  WEBAPP_NAME: webapp-cloudworkshop-containerapp-opening
 
 jobs:
   push_image:
@@ -44,3 +46,9 @@ jobs:
           -Djib.container.entrypoint=sh,webapp_startup.sh \
           -Djib.container.ports=8080,2222 \
           -Djib.container.environment=JDK_JAVA_OPTIONS="-Xmx512m -XX:StartFlightRecording"
+
+    - name: Update Staging Slot with the Latest Image
+      run: |
+        az webapp config container set --resource-group ${{ env.RESOURCE_GROUP }} \
+          --name ${{ env.WEBAPP_NAME }} --slot webapp-cloudworkshop-containerapp-opening-blue \
+          --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/todolist:latest
