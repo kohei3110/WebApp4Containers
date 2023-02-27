@@ -50,5 +50,5 @@ jobs:
     - name: Update Staging Slot with the Latest Image
       run: |
         az webapp config container set --resource-group ${{ env.RESOURCE_GROUP }} \
-          --name ${{ env.WEBAPP_NAME }} --slot webapp-cloudworkshop-containerapp-opening-blue \
+          --name ${{ env.WEBAPP_NAME }} --slot blue \
           --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/todolist:latest
